@@ -1,10 +1,14 @@
 import numpy as np
-from math_lab import progon
+from math_lab import thomas_algorithm
 
 
 def init_mat():
     size = int(input("Input matrix size: "))
-    mat = np.mat(size)
+
+    if size < 3:
+        raise ArithmeticError
+
+    mat = np.zeros((size, size))
     value = 0
     f = []
 
@@ -21,7 +25,18 @@ def init_mat():
     return mat, f
 
 
-mat, f = init_mat()
-x, res = progon(mat, f)
+def main():
+    mat = 0
+    f = 0
 
-print("X: " + str(x) + '\n' + "Det: " + str(res) + '\n')
+    try:
+        mat, f = init_mat()
+    except:
+        print("The dimension of the matrix should be greater than fbo equal to 3")
+        return 0
+
+    x, res = thomas_algorithm(mat, f)
+    print("X: " + str(x) + '\n' + "Det: " + str(res) + '\n')
+
+
+main()
