@@ -30,25 +30,39 @@ def main():
     mat = 0
     f = 0
 
-    try:
-        mat, f = init_mat()
-    except ArithmeticError:
-        print("The dimension of the matrix should be greater than fbo equal to 3")
-        return 0
+    method = 1
 
-    x, res = thomas_algorithm(mat, f)
-    print("X: " + str(x) + '\n' + "Det: " + str(res) + '\n')
+    while True:
+        method = int(input("Input method number(Thomas algorithm - 1, Jacobi - 2, exit - 3): "))
 
-    try:
-        mat, f = init_mat()
-    except ArithmeticError:
-        print("The dimension of the matrix should be greater than fbo equal to 3")
-        return 0
+        if method == 1:
 
-    x = [0, 0, 0]
-    ell = float(input("Enter ellipsis: "))
-    x, res = Jacobi(mat, f, x, ell)
-    print("X: " + str(x) + '\n' + "Num: " + str(res) + '\n')
+            try:
+                mat, f = init_mat()
+            except ArithmeticError:
+                print("The dimension of the matrix should be greater than fbo equal to 3")
+                break
+
+            x, res = thomas_algorithm(mat, f)
+            print("X: " + str(x) + '\n' + "Det: " + str(res) + '\n')
+
+        elif method == 2:
+
+            try:
+                mat, f = init_mat()
+            except ArithmeticError:
+                print("The dimension of the matrix should be greater than fbo equal to 3")
+                break
+
+            x = [0, 0, 0]
+            ell = float(input("Enter ellipsis: "))
+            x, res = Jacobi(mat, f, x, ell)
+            print("X: " + str(x) + '\n' + "Num: " + str(res) + '\n')
+
+        elif method == 3:
+            break
+        else:
+            continue
 
 
 main()

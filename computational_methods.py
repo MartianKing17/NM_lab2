@@ -1,7 +1,4 @@
-from my_math import prepare_lam_beta_z_and_x_n
-from my_math import sort_diagonal
-from my_math import vector_module
-from my_math import reinversion_vector_x
+import my_math as m
 
 
 def enter_x_arr(lam, beta, x, size):
@@ -30,15 +27,15 @@ def det_mat(c, z):
 
 
 def thomas_algorithm(mat, f):
-    c_dia = sort_diagonal(mat)
-    a_dia = sort_diagonal(mat, n = 1, p = 1)
-    b_dia = sort_diagonal(mat, k = 1, p = 1)
+    c_dia = m.sort_diagonal(mat)
+    a_dia = m.sort_diagonal(mat, n = 1, p = 1)
+    b_dia = m.sort_diagonal(mat, k = 1, p = 1)
     size = len(mat[0])
     x = []
-    lam, beta, z, value = prepare_lam_beta_z_and_x_n(c_dia, a_dia, b_dia, f)
+    lam, beta, z, value = m.prepare_lam_beta_z_and_x_n(c_dia, a_dia, b_dia, f)
     x.append(value)
     x = enter_x_arr(lam, beta, x, size)
-    x = reinversion_vector_x(x)
+    x = m.reinversion_vector_x(x)
     res = det_mat(c_dia[0], z)
     return x, res
 
@@ -79,11 +76,16 @@ def Jacobi(mat, b, x, ell):
     x_arr.append(x)
     x = []
 
-    while vector_module(x_arr[j], x_arr[j-1]) > ell:
+    while m.vector_module(x_arr[j], x_arr[j-1]) > ell:
         for i in range(3):
             x.append(r[i] * (b[i] - summary(mat, i, x_arr[j])))
         x_arr.append(x)
         x = []
         j += 1
 
-    return x_arr[len(x_arr)-1], 0
+    try:
+        num = m.condition_number(mat)
+    except Exception:
+        num = "Error"
+
+    return x_arr[len(x_arr)-1], num

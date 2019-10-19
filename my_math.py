@@ -1,3 +1,4 @@
+import numpy as np
 
 
 def prepare_lam_beta_z_and_x_n(c_dia, a_dia, b_dia, f):
@@ -46,6 +47,39 @@ def maximum_vector_element(x):
             maximum = x[i]
 
     return maximum
+
+def matrix_norm(mat):
+    size = len(mat[0])
+    maximum = []
+    sum = 0
+    for j in range(size):
+        for i in range(size):
+            sum += abs(mat[i][j])
+        maximum.append(sum)
+        sum = 0
+
+    maximum_number = maximum[0]
+
+    size = len(maximum)
+
+    if size > 0:
+        for k in range(1, size):
+            if maximum[k] > maximum_number:
+                maximum_number = maximum[k]
+
+    return maximum_number
+
+
+def condition_number(mat):
+    inverse_matrix = np.linalg.inv(mat)
+    original_matrix_norm = matrix_norm(mat)
+    inverse_matrix_norm = matrix_norm(inverse_matrix)
+    condition_matrix_number = original_matrix_norm * inverse_matrix_norm
+
+    if condition_matrix_number >= 1:
+        return condition_matrix_number
+    else:
+        raise Exception
 
 
 def vector_module(x1, x0):
